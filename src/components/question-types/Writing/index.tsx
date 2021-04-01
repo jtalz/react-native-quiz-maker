@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { View, ViewStyle, StyleProp, TextStyle, TextInput } from 'react-native';
-import { PrimaryButton } from 'src/components/buttons';
+import { ContinueButton, GiveUpButton } from 'src/components/buttons';
 import { QuestionHeader } from 'src/components/texts';
 
 interface WritingQuestionState {
@@ -70,16 +70,6 @@ const WritingQuestion: React.FC<Props> = (props) => {
         }
     }
 
-    const giveUp = () => {
-        dispatch({ type: 'giveUp' })
-        props.onSubmit(false)
-    }
-
-    const onContinue = () => {
-        props.onContinue()
-        dispatch({ type: 'reset' })
-    }
-
     return (
         <View>
             <QuestionHeader instructions={props.instructionText} question={props.question} />
@@ -91,8 +81,18 @@ const WritingQuestion: React.FC<Props> = (props) => {
                 autoCapitalize='sentences'
                 placeholder=''
             />
-            <PrimaryButton onPress={giveUp} label='Give Up' labelStyle={props.giveUpLabelStyle} buttonStyle={props.giveUpBtnStyle} />
-            <PrimaryButton onPress={onContinue} label='Continue' labelStyle={props.nextLabelStyle} buttonStyle={props.nextBtnStyle} />
+            <GiveUpButton
+                dispatch={dispatch}
+                onSubmit={props.onSubmit}
+                labelStyle={props.giveUpLabelStyle}
+                btnStyle={props.giveUpBtnStyle}
+            />
+            <ContinueButton
+                dispatch={dispatch}
+                onContinue={props.onContinue}
+                labelStyle={props.giveUpLabelStyle}
+                btnStyle={props.giveUpBtnStyle}
+            />
         </View>
     )
 }
