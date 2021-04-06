@@ -1,18 +1,19 @@
 import * as React from 'react';
-
 import { StyleSheet, View, Text } from 'react-native';
-import QuizMaker from 'react-native-quiz-maker';
+import { MatchingQuestion } from '../../src/index'
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    QuizMaker.multiply(3, 7).then(setResult);
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <MatchingQuestion questionAnswerPairs = {[
+        {answer: 'hello', question: 'goodbye'},
+        {answer: 'see ya', question: 'be ya'},
+        {answer: 'mia', question: 'pia'}
+        ]} 
+        onSubmit={()=>console.log('submit')}
+        onContinue={()=>console.log('submit')}
+        />
     </View>
   );
 }

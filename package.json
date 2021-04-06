@@ -150,5 +150,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-gesture-handler": "^1.10.3"
   }
 }

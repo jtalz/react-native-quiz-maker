@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 interface Props {
     instructions?: string;
-    question: string;
+    question?: string;
 }
 
 const QuestionHeader: React.FC<Props> = (props) => {
