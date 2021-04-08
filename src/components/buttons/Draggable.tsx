@@ -15,7 +15,7 @@ interface Props {
 
   enabled: boolean;
 
-  onHandlerStateChange: (_layout: any, _translate: any, index: number) => void;
+  onHandlerStateChange: (_layout: any, _translate: any, index: number) => (event: any) => any;
 
   clearOut: () => void;
 
@@ -48,7 +48,7 @@ const DraggableButton: React.FC<Props> = (props) => {
 
   const _onPanGestureEvent = onPanGestureEvent(_translate);
 
-  /*     const _onHandlerStateChange = props.onHandlerStateChange(layout, _translate, props.index); */
+  const _onHandlerStateChange = props.onHandlerStateChange(layout, _translate, props.index);
 
   useEffect(() => {
     if (props.landingZoneOccupier == props.index) {
@@ -72,17 +72,13 @@ const DraggableButton: React.FC<Props> = (props) => {
     >
       <PanGestureHandler
         onGestureEvent={_onPanGestureEvent}
-        onHandlerStateChange={() =>
-          props.onHandlerStateChange(layout, _translate, props.index)
-        }
+        onHandlerStateChange={_onHandlerStateChange}
         hitSlop={{ horizontal: 10, vertical: 10 }}
         enabled={props.enabled}
       >
         <Animated.View>
           <TapGestureHandler
-            onHandlerStateChange={() =>
-              props.onHandlerStateChange(layout, _translate, props.index)
-            }
+            onHandlerStateChange={_onHandlerStateChange}
             enabled={props.enabled}
           >
             <Animated.View
@@ -101,7 +97,7 @@ const DraggableButton: React.FC<Props> = (props) => {
             >
               <View
                 style={{
-                  width: 50,
+                  width: 100,
                   ...styles.choice,
                 }}
                 key={props.index}

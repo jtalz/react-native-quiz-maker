@@ -3,9 +3,9 @@ import type QuestionProps from "../commonProps";
 export interface MultipleChoiceQProps extends QuestionProps {
   question: string;
 
-  answer: string | number;
+  answer: string;
 
-  allChoices: Array<string | number>;
+  allChoices: Array<string>;
 
   underlineLength?: number;
 
@@ -26,6 +26,8 @@ export interface MultipleChoiceQState {
   occupier: number;
 
   isFull: boolean;
+
+  continueEnabled: boolean;
 }
 
 export const MultipleChoiceQInitialState: MultipleChoiceQState = {
@@ -36,4 +38,5 @@ export const MultipleChoiceQInitialState: MultipleChoiceQState = {
   layout: { x: 0, y: 0 },
   occupier: -1,
   isFull: false,
+  continueEnabled: false
 };
