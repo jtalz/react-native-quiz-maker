@@ -1,29 +1,30 @@
-import React from 'react'
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
-import PrimaryButton from './Primary'
+import React from 'react';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import PrimaryButton from './Primary';
 
 interface Props {
-    dispatch: any,
-    onContinue: any,
-    labelStyle?: StyleProp<TextStyle>;
-    btnStyle?: StyleProp<ViewStyle>;
+  onContinue: () => void;
+
+  labelStyle?: StyleProp<TextStyle>;
+
+  buttonStyle?: StyleProp<ViewStyle>;
+
+  buttonContainerStyle?: StyleProp<ViewStyle>;
+
+  enabled?: boolean;
 }
 
 const ContinueButton: React.FC<Props> = (props) => {
+  return (
+    <PrimaryButton
+      label="Continue"
+      labelStyle={props.labelStyle}
+      buttonStyle={props.buttonStyle}
+      buttonContainerStyle={props.buttonContainerStyle}
+      onPress={props.onContinue}
+      enabled={props.enabled}
+    />
+  );
+};
 
-    const onContinue = () => {
-        props.onContinue()
-        props.dispatch({ type: 'reset' })
-    }
-
-    return (
-        <PrimaryButton
-            label="Continue"
-            labelStyle={props.labelStyle}
-            buttonStyle={props.btnStyle}
-            onPress={onContinue}
-        />
-    )
-}
-
-export default ContinueButton
+export default ContinueButton;

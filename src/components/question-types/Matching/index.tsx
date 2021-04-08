@@ -1,35 +1,28 @@
 import React, { useEffect, useReducer } from 'react';
-import { FlatList, StyleProp, TextStyle, View, ViewStyle } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import { ContinueButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
+import type { MatchingCard, MatchingQProps } from './definitions';
 import PlayingCard from './PlayingCard';
-import {
-  setup,
-  matchingReducer,
-  MatchingCard,
-  QuestionAnswerPair,
-} from './setup';
+import { matchingReducer } from './setup';
 
-interface Props {
-  questionAnswerPairs: Array<QuestionAnswerPair>;
-  onSubmit: (isCorrect: boolean) => void;
-  onContinue: () => void;
-  instructionText?: string;
-  instructionStyle?: StyleProp<TextStyle>;
-  correctCardColor?: string;
-  incorrectCardColor?: string;
-  cardStyle?: StyleProp<ViewStyle>;
-  continueLabelStyle?: StyleProp<TextStyle>;
-  continueBtnStyle?: StyleProp<ViewStyle>;
-}
-
-const MatchingQuestion: React.FC<Props> = (props) => {
+const MatchingQuestion: React.FC<MatchingQProps> = (props) => {
   const [state, dispatch] = useReducer(matchingReducer, {
-    deck: setup(props.questionAnswerPairs),
+    deck: [],
     continueEnabled: false,
   });
 
+  const resetGame = () =>
+    dispatch({
+      type: 'reset',
+      payload: { questionAnswers: props.questionAnswerPairs },
+    });
+
   //useeffect to check if game is completed, matching cannot send a false result
+  useEffect(() => {
+    resetGame();
+  }, []);
+
   useEffect(() => {
     state.continueEnabled && props.onSubmit(true);
   }, [state.continueEnabled]);
@@ -39,39 +32,55 @@ const MatchingQuestion: React.FC<Props> = (props) => {
 
   const onContinue = () => {
     props.onContinue();
-    dispatch({
-      type: 'reset',
-      payload: { questionAnswers: props.questionAnswerPairs },
-    });
+    resetGame();
   };
 
   return (
-    <View>
-      <QuestionHeader instructions={props.instructionText} />
-      <FlatList
-        data={state.deck}
-        numColumns={2}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <View>
+    <View style={[styles.container, props.customContainerStyle]}>
+      <QuestionHeader
+        instructions={
+          props.instructionText || 'Please insert instructions here'
+        }
+        instructionsTextStyle={props.instructionsTextStyle}
+        questionTextStyle={props.questionTextStyle}
+        headerContainerStyle={props.headerContainerStyle}
+      />
+      <View style={[{ flex: 4 }, props.cardListContainerStyle]}>
+        <FlatList
+          data={state.deck}
+          numColumns={2}
+          keyExtractor={(item) => item.name}
+          renderItem={({ item }) => (
             <PlayingCard
               item={item}
               selectCard={selectCard}
               correctCardColor={props.correctCardColor}
               incorrectCardColor={props.incorrectCardColor}
               cardStyle={props.cardStyle}
+              inactiveCardColor={props.inactiveCardColor}
+              activeCardColor={props.activeCardColor}
+              cardTextStyle={props.cardTextStyle}
             />
-          </View>
-        )}
-      />
+          )}
+          style={[props.cardListStyle]}
+          scrollEnabled={props.listScrollEnabled || false}
+        />
+      </View>
       <ContinueButton
-        dispatch={dispatch}
         onContinue={onContinue}
         labelStyle={props.continueLabelStyle}
-        btnStyle={props.continueBtnStyle}
+        buttonStyle={props.continueButtonStyle}
+        enabled={state.continueEnabled}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default MatchingQuestion;

@@ -3,25 +3,27 @@ import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import PrimaryButton from './Primary'
 
 interface Props {
-    dispatch: any,
-    onSubmit: any,
+    onGiveUp: ()=>void,
+    
     labelStyle?: StyleProp<TextStyle>;
-    btnStyle?: StyleProp<ViewStyle>;
+    
+    buttonStyle?: StyleProp<ViewStyle>;
+
+    buttonContainerStyle?: StyleProp<ViewStyle>;
+
+    enabled?: boolean;
 }
 
 const GiveUpButton: React.FC<Props> = (props) => {
-
-    const giveUp = () => {
-        props.dispatch({ type: 'giveUp' })
-        props.onSubmit(false)
-    }
 
     return (
         <PrimaryButton
             label="Give Up"
             labelStyle={props.labelStyle}
-            buttonStyle={props.btnStyle}
-            onPress={giveUp}
+            buttonStyle={props.buttonStyle}
+            buttonContainerStyle={props.buttonContainerStyle}
+            enabled={props.enabled}
+            onPress={props.onGiveUp}
         />
     )
 }

@@ -33,18 +33,18 @@ interface Props {
   inactiveCardColor?: string;
   activeCardColor?: string;
   cardStyle?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>
+  cardTextStyle?: StyleProp<TextStyle>
 }
 
 const PlayingCard: React.FC<Props> = ({
   item,
   selectCard,
   cardStyle = {},
-  correctCardColor = 'red',
-  incorrectCardColor = 'green',
+  correctCardColor = '#73D413',
+  incorrectCardColor = '#F33232',
   inactiveCardColor = 'white',
-  activeCardColor = 'blue',
-  textStyle
+  activeCardColor = '#4294DB',
+  cardTextStyle
 }) => {
   const { selected, visible, name, justSubmitted } = item;
 
@@ -125,7 +125,7 @@ const PlayingCard: React.FC<Props> = ({
           bgColor,
         ]}
       >
-        <Text style={[styles.text, textStyle]}>{name}</Text>
+        <Text style={[styles.text, cardTextStyle]}>{name}</Text>
       </Animated.View>
     </TouchableOpacity>
   );

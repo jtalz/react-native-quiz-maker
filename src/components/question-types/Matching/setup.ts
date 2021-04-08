@@ -1,23 +1,6 @@
-export interface MatchingCard {
-  index: number;
-  name: string;
-  pair: number;
-  selected: boolean;
-  visible: boolean;
-  justSubmitted: boolean;
-}
+import type { MatchingCard, MatchingQState, QuestionAnswerPair } from "./definitions";
 
-export interface QuestionAnswerPair {
-  question: string;
-  answer: string;
-}
-
-export interface MatchingQuestionState {
-  deck: Array<MatchingCard>;
-  continueEnabled: boolean;
-}
-
-type State = MatchingQuestionState;
+type State = MatchingQState;
 
 type Actions =
   | { type: 'selectCard'; payload: { selection: MatchingCard } }
@@ -116,6 +99,7 @@ const shuffleArray = (ogArray: Array<any>) => {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+  console.log('running shuffle array')
   return array;
 };
 
@@ -154,7 +138,7 @@ export const matchingReducer = (state: State, action: Actions) => {
   } else if (action.type === 'reset') {
     return {
       deck: setup(action.payload.questionAnswers),
-      continueEnabled: false,
+      continueEnabled: false
     };
   } else {
     return { ...state };
