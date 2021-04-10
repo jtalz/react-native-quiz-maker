@@ -25,7 +25,7 @@ const WritingQuestion: React.FC<WritingQProps> = (props) => {
   };
 
   return (
-    <View>
+    <View style={{width: Sizing.sw}}>
       <QuestionHeader
         instructions={props.instructionText}
         question={props.question}

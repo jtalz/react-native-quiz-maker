@@ -78,7 +78,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   };
 
   return (
-    <View style={[props.customContainerStyle]}>
+    <View style={[{width: Sizing.sw}, props.customContainerStyle]}>
       <QuestionHeader
         instructions={props.instructionText}
         question={props.question}

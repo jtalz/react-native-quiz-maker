@@ -1,3 +1,5 @@
+import { Sizing } from "../../styles";
+
 const { StyleSheet } = require('react-native');
 
 const styles = StyleSheet.create({
@@ -8,6 +10,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
+    width: Sizing.sw / 2,
+    alignSelf: 'center'
   },
 });
 

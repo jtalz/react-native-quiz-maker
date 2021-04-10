@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
+import { Sizing } from '../../../styles';
 import { ContinueButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import type { MatchingCard, MatchingQProps } from './definitions';
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: Sizing.sw
   },
 });
 

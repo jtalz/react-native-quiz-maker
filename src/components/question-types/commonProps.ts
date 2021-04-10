@@ -1,13 +1,17 @@
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
+type QuestionType = 'Writing' | 'MultipleChoice' | 'Matching'
+
 interface QuestionProps {
   index?: number;
+
+  questionType?: QuestionType;
 
   onSubmit: (isCorrect: boolean) => void;
 
   onContinue: () => void;
 
-  isActiveQuestion: boolean;
+  isActiveQuestion?: boolean;
 
   customContainerStyle?: StyleProp<ViewStyle>;
 
