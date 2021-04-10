@@ -3,7 +3,7 @@ import type QuestionProps from '../commonProps';
 export interface WritingQProps extends QuestionProps {
   question: string;
 
-  answer: string | number;
+  answer: string;
 
   underlineLength?: number;
 
@@ -11,18 +11,18 @@ export interface WritingQProps extends QuestionProps {
 }
 
 export interface WritingQState {
-  inputValue: string | number;
+  inputValue: string;
 
   grade: string;
 
   inputEnabled: boolean;
 
-  nextBtnEnabled: boolean;
+  continueEnabled: boolean;
 }
 
 export const WritingQInitialState: WritingQState = {
   grade: 'unanswered',
   inputEnabled: true,
-  nextBtnEnabled: false,
+  continueEnabled: false,
   inputValue: '',
 };

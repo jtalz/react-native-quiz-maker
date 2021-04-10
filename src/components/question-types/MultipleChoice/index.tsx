@@ -10,6 +10,7 @@ import {
 } from './definitions';
 import { MultipleChoiceQReducer } from './reducer';
 import { Sizing } from '../../../styles';
+import styles from '../styles'
 
 const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   const [state, dispatch] = useReducer(
@@ -92,8 +93,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
         style={{
           justifyContent: 'flex-start',
           alignItems: 'center',
-          flex: 2,
-          borderWidth: 1,
+          flex: 2
         }}
       >
         <View
@@ -135,16 +135,5 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  underline: {
-    height: 50,
-    borderBottomColor: 'black',
-    borderWidth: 1,
-    borderColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default MultipleChoiceQuestion;

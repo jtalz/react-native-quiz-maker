@@ -3,9 +3,9 @@ import { WritingQInitialState, WritingQState } from "./definitions";
 type State = WritingQState;
 
 type Actions =
-  | { type: 'handleResponse'; response: string | number }
-  | { type: 'correctAnswer'; response: string | number }
-  | { type: 'giveUp' }
+  | { type: 'handleResponse'; response: string }
+  | { type: 'correctAnswer'; response: string }
+  | { type: 'giveUp'; payload: { answer: string } }
   | { type: 'reset' };
 
 export const WritingQReducer = (state: State, action: Actions) => {
@@ -18,14 +18,15 @@ export const WritingQReducer = (state: State, action: Actions) => {
         inputValue: action.response,
         inputEnabled: false,
         grade: 'correct',
-        nextBtnEnabled: true,
+        continueEnabled: true,
       };
     case 'giveUp':
       return {
         ...state,
         inputEnabled: false,
         grade: 'incorrect',
-        nextBtnEnabled: true,
+        continueEnabled: true,
+        inputValue: action.payload.answer
       };
     case 'reset':
       return { ...WritingQInitialState };

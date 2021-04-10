@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { MatchingQuestion, MultipleChoiceQuestion } from '../../src/index';
+import { MatchingQuestion, MultipleChoiceQuestion, WritingQuestion } from '../../src/index';
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
         instructionText='please answer'
         isActiveQuestion={true}
         /> */}
-      <MultipleChoiceQuestion
+      {/* <MultipleChoiceQuestion
         question="How much does an apple cost?"
         answer="$15.99"
         allChoices={['$15.99', '$1.00', '$9.99']}
@@ -23,7 +23,15 @@ export default function App() {
         onContinue={() => console.log('continue')}
         instructionText="please answer"
         isActiveQuestion={true}
-      />
+      /> */}
+      {/* <WritingQuestion 
+        question='How many apples are in a dozen?'
+        answer='12'
+        onSubmit={() => console.log('submit')}
+        onContinue={() => console.log('continue')}
+        instructionText="please answer"
+        isActiveQuestion={true}
+      /> */}
     </View>
   );
 }

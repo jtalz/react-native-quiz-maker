@@ -11,3 +11,5 @@ export const normalize = (size: number) => {
     return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
   }
 }
+
+export const sw = Dimensions.get('screen').width

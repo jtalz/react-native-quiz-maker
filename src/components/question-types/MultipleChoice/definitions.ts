@@ -40,5 +40,3 @@ export const MultipleChoiceQInitialState: MultipleChoiceQState = {
   isFull: false,
   continueEnabled: false,
 };
-
-//test
