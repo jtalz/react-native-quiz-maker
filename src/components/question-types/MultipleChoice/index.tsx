@@ -1,13 +1,13 @@
 import React, { useReducer } from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { State } from 'react-native-gesture-handler';
 import { ContinueButton, DraggableButton, PrimaryButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import timedAnimation from '../../../services/timedAnimation';
-import { MultipleChoiceQInitialState, MultipleChoiceQProps } from './definitions';
+import {
+  MultipleChoiceQInitialState,
+  MultipleChoiceQProps,
+} from './definitions';
 import { MultipleChoiceQReducer } from './reducer';
 import { Sizing } from '../../../styles';
 
@@ -41,7 +41,6 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   };
 
   const returnHandlerHome = (_translate: any, index: number) => {
-    console.log('returning handler home')
     timedAnimation(_translate, 200, { x: 0, y: 0 }).start(() => {
       _translate.setOffset({ x: 0, y: 0 });
       _translate.setValue({ x: 0, y: 0 });
@@ -50,14 +49,13 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   };
 
   const sendHandlerToPlace = (_layout: any, _translate: any, index: number) => {
-    console.log('seending handler to place')
     timedAnimation(_translate, 200, {
-      x: state.layout.x - _layout.x + Sizing.normalize(props.answer.length),
-      y: state.layout.y - _layout.y + Sizing.normalize(10),
+      x: 0,
+      y: -state.layout.y - _layout.y + 50,
     }).start(() => {
       _translate.setOffset({
-        x: state.layout.x - _layout.x + Sizing.normalize(props.answer.length),
-        y: state.layout.y - _layout.y + Sizing.normalize(10),
+        x: 0,
+        y: -state.layout.y - _layout.y + 50,
       });
       _translate.setValue({ x: 0, y: 0 });
       prepareForLanding(index);
@@ -91,22 +89,34 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
             y: event.nativeEvent.layout.y,
           });
         }}
-        style={{justifyContent: 'center', alignItems: 'center'}}
+        style={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flex: 2,
+          borderWidth: 1,
+        }}
       >
-        <View style={{...styles.underline, width: Sizing.normalize(props.answer.length*20) }}></View>
+        <View
+          style={{
+            ...styles.underline,
+            width: Sizing.normalize(props.answer.length * 20),
+          }}
+        ></View>
       </View>
-      {props.allChoices.map((name, index) => (
-        <DraggableButton
-          key={index}
-          name={name.toString()}
-          onHandlerStateChange={onHandlerStateChange}
-          index={index}
-          landingZoneOccupier={state.occupier}
-          clearOut={clearOut}
-          choices={props.allChoices}
-          enabled={state.choicesEnabled}
-        />
-      ))}
+      <View style={{ flex: 3 }}>
+        {props.allChoices.map((name, index) => (
+          <DraggableButton
+            key={index}
+            name={name.toString()}
+            onHandlerStateChange={onHandlerStateChange}
+            index={index}
+            landingZoneOccupier={state.occupier}
+            clearOut={clearOut}
+            choices={props.allChoices}
+            enabled={state.choicesEnabled}
+          />
+        ))}
+      </View>
       <PrimaryButton
         label="Check"
         onPress={submit}
@@ -120,6 +130,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
         labelStyle={props.continueLabelStyle}
         buttonStyle={props.continueButtonStyle}
         buttonContainerStyle={props.continueButtonContainerStyle}
+        enabled={state.continueEnabled}
       />
     </View>
   );
@@ -127,7 +138,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
 
 const styles = StyleSheet.create({
   underline: {
-    height: 45,
+    height: 50,
     borderBottomColor: 'black',
     borderWidth: 1,
     borderColor: 'transparent',

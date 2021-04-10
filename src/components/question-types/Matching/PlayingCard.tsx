@@ -10,7 +10,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { timedAnimation } from '../../../services';
-import type { MatchingCard } from './setup';
+import type { MatchingCard } from './definitions';
 
 const appropriateCardOpacity = (
   visible: boolean,

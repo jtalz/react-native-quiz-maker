@@ -11,7 +11,7 @@ interface Props {
 
 const QuestionHeader: React.FC<Props> = (props) => {
   return (
-    <SafeAreaView style={[{flex: 1, alignItems: 'center', justifyContent: 'center'}, props.headerContainerStyle]}>
+    <SafeAreaView style={[{flex: 2, alignItems: 'center', justifyContent: 'center'}, props.headerContainerStyle]}>
       <Text style={[props.instructionsTextStyle]}>{props.instructions}</Text>
       <Text style={[props.questionTextStyle]}>{props.question}</Text>
     </SafeAreaView>

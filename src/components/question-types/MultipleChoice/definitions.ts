@@ -1,4 +1,4 @@
-import type QuestionProps from "../commonProps";
+import type QuestionProps from '../commonProps';
 
 export interface MultipleChoiceQProps extends QuestionProps {
   question: string;
@@ -38,5 +38,5 @@ export const MultipleChoiceQInitialState: MultipleChoiceQState = {
   layout: { x: 0, y: 0 },
   occupier: -1,
   isFull: false,
-  continueEnabled: false
+  continueEnabled: false,
 };
