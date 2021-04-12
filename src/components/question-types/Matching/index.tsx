@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import { Sizing } from '../../../styles';
 import { QuestionHeader } from '../../texts';

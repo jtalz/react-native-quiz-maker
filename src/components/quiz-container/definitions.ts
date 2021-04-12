@@ -29,6 +29,8 @@ export interface QuizContainerProps {
   continueButtonStyle?: StyleProp<ViewStyle>;
 
   onSubmit: (isCorrect: boolean) => void;
+
+  onComplete: (progress: number) => void;
 }
 
 export interface QuizContainerState {
@@ -36,7 +38,7 @@ export interface QuizContainerState {
 
   activeQuestion: number;
 
-  progress?: number;
+  progress: number;
 
   lives?: number;
 

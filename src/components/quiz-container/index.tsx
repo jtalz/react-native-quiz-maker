@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useReducer,
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useState, useReducer, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { Sizing } from '../../styles';
 import { springAnimation } from '../../services';
@@ -21,6 +15,8 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
   lives = 0,
   continueLabelStyle,
   continueButtonStyle,
+  onSubmit,
+  onComplete,
 }) => {
   const [state, dispatch] = useReducer(QuizContainerReducer, {
     questionComponents: [...questions],
@@ -34,16 +30,17 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
 
   const horizontalContainer = useState(new Animated.Value(0))[0];
 
-  const slideToNextQ = useCallback(() => {
-    if (state.activeQuestion === state.questionComponents.length) {
-      console.log('finished');
-    } else {
-      dispatch({ type: 'nextSlide' });
-    }
-  }, [state.questionComponents, state.activeQuestion]);
+  const progressIncrement = 100 / questions.length;
 
-  const userSubmit = (isCorrect: boolean = true) =>
-    dispatch({ type: 'userSubmit' });
+  const nextQuestion = () =>
+    state.activeQuestion === state.questionComponents.length - 1
+      ? onComplete(state.progress)
+      : dispatch({ type: 'nextSlide' });
+
+  const userSubmit = (isCorrect: boolean = true) => {
+    dispatch({ type: 'userSubmit', payload: { isCorrect, progressIncrement } });
+    onSubmit(isCorrect);
+  };
 
   useEffect(() => {
     didMount.current
@@ -85,7 +82,7 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
                 question={question.question}
                 answer={question.answer}
                 allChoices={question.allChoices}
-                onSubmit={(isCorrect) => userSubmit(isCorrect)}
+                onSubmit={userSubmit}
                 instructionText={question.instructionText}
               />
             );
@@ -110,7 +107,7 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
                 key={index}
                 question={question.question}
                 answer={question.answer}
-                onSubmit={(isCorrect) => userSubmit(isCorrect)}
+                onSubmit={userSubmit}
                 instructionText={question.instructionText}
                 isActiveQuestion={state.activeQuestion === index}
               />
@@ -121,7 +118,7 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
         })}
       </Animated.View>
       <ContinueButton
-        onContinue={slideToNextQ}
+        onContinue={nextQuestion}
         labelStyle={continueLabelStyle}
         buttonStyle={continueButtonStyle}
         enabled={state.continueEnabled}

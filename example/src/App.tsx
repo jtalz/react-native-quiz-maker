@@ -63,6 +63,7 @@ export default function App() {
           },
         ]}
         onSubmit={(isCorrect: boolean) => console.log(isCorrect)}
+        onComplete={(progress: number) => console.log('score: ', progress)}
       />
     </View>
   );
