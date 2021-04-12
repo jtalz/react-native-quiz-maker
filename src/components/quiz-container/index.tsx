@@ -1,53 +1,62 @@
-import React, { useState, useReducer, useEffect } from 'react';
-import { Animated, Text, View } from 'react-native';
+import React, {
+  useState,
+  useReducer,
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import { Sizing } from '../../styles';
 import { springAnimation } from '../../services';
 import MatchingQuestion from '../question-types/Matching';
 import MultipleChoiceQuestion from '../question-types/MultipleChoice';
 import WritingQuestion from '../question-types/Writing';
-import {
-  getQuizContainerInitialState,
-  QuestionProps,
-  QuizContainerProps,
-} from './definitions';
-import { QuizContainerReducer, isLastElement } from './reducer';
+import type { QuizContainerProps } from './definitions';
+import { QuizContainerReducer } from './reducer';
+import { ContinueButton } from '../buttons';
 
-const QuizContainer: React.FC<QuizContainerProps> = (props) => {
-  const [state, dispatch] = useReducer(
-    QuizContainerReducer,
-    getQuizContainerInitialState(props.lives)
-  );
+const QuizContainer: React.FC<QuizContainerProps> = ({
+  questions,
+  customContainerStyle,
+  lives = 0,
+  continueLabelStyle,
+  continueButtonStyle,
+}) => {
+  const [state, dispatch] = useReducer(QuizContainerReducer, {
+    questionComponents: [...questions],
+    activeQuestion: 0,
+    progress: 0,
+    lives,
+    continueEnabled: false,
+  });
+
+  const didMount = useRef(false);
 
   const horizontalContainer = useState(new Animated.Value(0))[0];
 
-  useEffect(() => {
-    setQuestionComponents(props.questions);
-  }, []);
-
-  const setQuestionComponents = (questionComponents: QuestionProps) =>
-    dispatch({
-      type: 'setQuestionComponents',
-      payload: { questionComponents },
-    });
-
-  const slideToNextQ = (onContinue: () => void) => {
-    if (!isLastElement(state.activeQuestion, state.questionComponents)) {
-      springAnimation(horizontalContainer, state.activeQuestion + 1).start();
-      onContinue();
+  const slideToNextQ = useCallback(() => {
+    if (state.activeQuestion === state.questionComponents.length) {
+      console.log('finished');
+    } else {
       dispatch({ type: 'nextSlide' });
-    }else{
-        console.log('finished')
     }
-  };
+  }, [state.questionComponents, state.activeQuestion]);
+
+  const userSubmit = (isCorrect: boolean = true) =>
+    dispatch({ type: 'userSubmit' });
+
+  useEffect(() => {
+    didMount.current
+      ? springAnimation(horizontalContainer, state.activeQuestion).start()
+      : (didMount.current = true);
+  }, [state.activeQuestion, horizontalContainer]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[{ flex: 1 }, customContainerStyle]}>
       <Animated.View
-        //horizontal={true}
         style={[
+          styles.animatedContainer,
           {
-            flexDirection: 'row',
-            flex: 1,
             transform: [
               {
                 translateX: horizontalContainer.interpolate({
@@ -66,7 +75,7 @@ const QuizContainer: React.FC<QuizContainerProps> = (props) => {
       >
         {state.questionComponents.map((question, index) => {
           if (
-            question.questionType == 'MultipleChoice' &&
+            question.questionType === 'MultipleChoice' &&
             'question' in question &&
             'allChoices' in question
           ) {
@@ -76,28 +85,24 @@ const QuizContainer: React.FC<QuizContainerProps> = (props) => {
                 question={question.question}
                 answer={question.answer}
                 allChoices={question.allChoices}
-                onSubmit={(isCorrect) => question.onSubmit(isCorrect)}
-                onContinue={() => slideToNextQ(question.onContinue)}
+                onSubmit={(isCorrect) => userSubmit(isCorrect)}
                 instructionText={question.instructionText}
-                isActiveQuestion={state.activeQuestion == index}
               />
             );
           } else if (
-            question.questionType == 'Matching' &&
+            question.questionType === 'Matching' &&
             'questionAnswerPairs' in question
           ) {
             return (
               <MatchingQuestion
                 key={index}
                 questionAnswerPairs={question.questionAnswerPairs}
-                onSubmit={(isCorrect) => question.onSubmit(isCorrect)}
-                onContinue={() => slideToNextQ(question.onContinue)}
+                onSubmit={userSubmit}
                 instructionText={question.instructionText}
-                isActiveQuestion={state.activeQuestion == index}
               />
             );
           } else if (
-            question.questionType == 'Writing' &&
+            question.questionType === 'Writing' &&
             'question' in question
           ) {
             return (
@@ -105,10 +110,9 @@ const QuizContainer: React.FC<QuizContainerProps> = (props) => {
                 key={index}
                 question={question.question}
                 answer={question.answer}
-                onSubmit={(isCorrect) => question.onSubmit(isCorrect)}
-                onContinue={() => slideToNextQ(question.onContinue)}
+                onSubmit={(isCorrect) => userSubmit(isCorrect)}
                 instructionText={question.instructionText}
-                isActiveQuestion={state.activeQuestion == index}
+                isActiveQuestion={state.activeQuestion === index}
               />
             );
           } else {
@@ -116,8 +120,21 @@ const QuizContainer: React.FC<QuizContainerProps> = (props) => {
           }
         })}
       </Animated.View>
+      <ContinueButton
+        onContinue={slideToNextQ}
+        labelStyle={continueLabelStyle}
+        buttonStyle={continueButtonStyle}
+        enabled={state.continueEnabled}
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  animatedContainer: {
+    flexDirection: 'row',
+    flex: 3,
+  },
+});
 
 export default QuizContainer;

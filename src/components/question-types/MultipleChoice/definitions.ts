@@ -1,4 +1,4 @@
-import type QuestionProps from '../commonProps';
+import type { QuestionProps } from '../commonProps';
 
 export interface MultipleChoiceQProps extends QuestionProps {
   question: string;

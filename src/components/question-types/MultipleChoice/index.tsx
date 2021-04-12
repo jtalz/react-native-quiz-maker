@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { State } from 'react-native-gesture-handler';
-import { ContinueButton, DraggableButton, PrimaryButton } from '../../buttons';
+import { DraggableButton, PrimaryButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import timedAnimation from '../../../services/timedAnimation';
 import {
@@ -10,7 +10,7 @@ import {
 } from './definitions';
 import { MultipleChoiceQReducer } from './reducer';
 import { Sizing } from '../../../styles';
-import styles from '../styles'
+import styles from '../styles';
 
 const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   const [state, dispatch] = useReducer(
@@ -78,7 +78,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   };
 
   return (
-    <View style={[{width: Sizing.sw}, props.customContainerStyle]}>
+    <View style={[{ width: Sizing.sw }, props.customContainerStyle]}>
       <QuestionHeader
         instructions={props.instructionText}
         question={props.question}
@@ -93,7 +93,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
         style={{
           justifyContent: 'flex-start',
           alignItems: 'center',
-          flex: 2
+          flex: 2,
         }}
       >
         <View
@@ -125,13 +125,13 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
         buttonContainerStyle={props.checkButtonContainerStyle}
         enabled={state.checkEnabled}
       />
-      <ContinueButton
+      {/*       <ContinueButton
         onContinue={props.onContinue}
         labelStyle={props.continueLabelStyle}
         buttonStyle={props.continueButtonStyle}
         buttonContainerStyle={props.continueButtonContainerStyle}
         enabled={state.continueEnabled}
-      />
+      /> */}
     </View>
   );
 };

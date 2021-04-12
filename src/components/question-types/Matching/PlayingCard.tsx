@@ -33,7 +33,7 @@ interface Props {
   inactiveCardColor?: string;
   activeCardColor?: string;
   cardStyle?: StyleProp<ViewStyle>;
-  cardTextStyle?: StyleProp<TextStyle>
+  cardTextStyle?: StyleProp<TextStyle>;
 }
 
 const PlayingCard: React.FC<Props> = ({
@@ -44,7 +44,7 @@ const PlayingCard: React.FC<Props> = ({
   incorrectCardColor = '#F33232',
   inactiveCardColor = 'white',
   activeCardColor = '#4294DB',
-  cardTextStyle
+  cardTextStyle,
 }) => {
   const { selected, visible, name, justSubmitted } = item;
 
@@ -75,19 +75,9 @@ const PlayingCard: React.FC<Props> = ({
     outputRange: [incorrectCardColor, 'rgb(250, 250, 250)'],
   });
 
-  const bgColor = {
-    backgroundColor: appropriateCardColor(
-      selected,
-      justSubmittedAndIsCorrect,
-      justSubmittedAndIsIncorrect
-    ),
-  };
+  const bgColor = { backgroundColor: appropriateCardColor() };
 
-  function appropriateCardColor(
-    selected: boolean,
-    justSubmittedAndIsCorrect: boolean,
-    justSubmittedAndIsIncorrect: boolean
-  ) {
+  function appropriateCardColor() {
     if (justSubmittedAndIsCorrect) {
       return correctCardColor;
     } else if (justSubmittedAndIsIncorrect) {
@@ -140,10 +130,10 @@ const styles = StyleSheet.create({
     borderRadius: Dimensions.get('screen').height / 18,
     margin: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
-    alignSelf: "center",
+    alignSelf: 'center',
   },
 });
 

@@ -1,15 +1,15 @@
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-type QuestionType = 'Writing' | 'MultipleChoice' | 'Matching'
+type QuestionType = 'Writing' | 'MultipleChoice' | 'Matching';
 
-interface QuestionProps {
+export interface QuestionProps {
   index?: number;
 
   questionType?: QuestionType;
 
-  onSubmit: (isCorrect: boolean) => void;
+  onSubmit?: (isCorrect: boolean) => void;
 
-  onContinue: () => void;
+  onContinue?: () => void;
 
   isActiveQuestion?: boolean;
 
@@ -41,5 +41,3 @@ interface QuestionProps {
 
   giveUpButtonContainerStyle?: StyleProp<ViewStyle>;
 }
-
-export default QuestionProps;

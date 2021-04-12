@@ -40,42 +40,29 @@ export default function App() {
       <QuizContainer
         questions={[
           {
+            questionType: 'MultipleChoice',
+            question: 'How much does an apple cost?',
+            answer: '$15.99',
+            allChoices: ['$15.99', '$1.00', '$9.99'],
+            instructionText: 'please answer',
+          },
+          {
             questionType: 'Matching',
             questionAnswerPairs: [
               { answer: 'hello', question: 'goodbye' },
               { answer: 'see ya', question: 'be ya' },
               { answer: 'mia', question: 'pia' },
             ],
-            onSubmit: (isCorrect: boolean) => console.log(isCorrect),
             instructionText: 'try this out',
-            onContinue: () => console.log('continue'),
-          },
-          {
-            questionType: 'MultipleChoice',
-            question: 'How much does an apple cost?',
-            answer: '$15.99',
-            allChoices: ['$15.99', '$1.00', '$9.99'],
-            onSubmit: (isCorrect) => console.log('submit'),
-            onContinue: () => console.log('continue'),
-            instructionText: 'please answer',
           },
           {
             questionType: 'Writing',
             question: 'How many apples are in a dozen?',
             answer: '12',
-            onSubmit: () => console.log('submit'),
-            onContinue: () => console.log('continue'),
-            instructionText: 'please answer',
-          },
-          {
-            questionType: 'Writing',
-            question: 'How many apples are in a dozen?',
-            answer: '12',
-            onSubmit: () => console.log('submit'),
-            onContinue: () => console.log('continue'),
             instructionText: 'please answer',
           },
         ]}
+        onSubmit={(isCorrect: boolean) => console.log(isCorrect)}
       />
     </View>
   );

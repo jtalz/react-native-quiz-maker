@@ -1,87 +1,84 @@
 import React, { useEffect, useReducer } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import { Sizing } from '../../../styles';
-import { ContinueButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import type { MatchingCard, MatchingQProps } from './definitions';
 import PlayingCard from './PlayingCard';
-import { matchingReducer } from './setup';
+import { matchingReducer, setup } from './setup';
 
-const MatchingQuestion: React.FC<MatchingQProps> = (props) => {
-  const [state, dispatch] = useReducer(matchingReducer, {
-    deck: [],
-    continueEnabled: false,
-  });
-
-  const resetGame = () =>
-    dispatch({
-      type: 'reset',
-      payload: { questionAnswers: props.questionAnswerPairs },
+const MatchingQuestion: React.FC<MatchingQProps> = React.memo(
+  ({
+    questionAnswerPairs,
+    onSubmit = (isCorrect: boolean) => isCorrect,
+    customContainerStyle,
+    instructionText,
+    instructionsTextStyle,
+    questionTextStyle,
+    headerContainerStyle,
+    cardListContainerStyle,
+    correctCardColor,
+    incorrectCardColor,
+    inactiveCardColor,
+    cardStyle,
+    activeCardColor,
+    cardTextStyle,
+    cardListStyle,
+    listScrollEnabled,
+  }) => {
+    const initialDeck = setup(questionAnswerPairs);
+    const [state, dispatch] = useReducer(matchingReducer, {
+      deck: initialDeck,
+      continueEnabled: false,
     });
 
-  //useeffect to check if game is completed, matching cannot send a false result
-  useEffect(() => {
-    resetGame();
-  }, []);
+    const selectCard = (selection: MatchingCard) =>
+      dispatch({
+        type: 'selectCard',
+        payload: { selection, submit: onSubmit },
+      });
 
-  useEffect(() => {
-    state.continueEnabled && props.onSubmit(true);
-  }, [state.continueEnabled]);
-
-  const selectCard = (selection: MatchingCard) =>
-    dispatch({ type: 'selectCard', payload: { selection } });
-
-  const onContinue = () => {
-    props.onContinue();
-    resetGame();
-  };
-
-  return (
-    <View style={[styles.container, props.customContainerStyle]}>
-      <QuestionHeader
-        instructions={
-          props.instructionText || 'Please insert instructions here'
-        }
-        instructionsTextStyle={props.instructionsTextStyle}
-        questionTextStyle={props.questionTextStyle}
-        headerContainerStyle={props.headerContainerStyle}
-      />
-      <View style={[{ flex: 4 }, props.cardListContainerStyle]}>
-        <FlatList
-          data={state.deck}
-          numColumns={2}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item }) => (
-            <PlayingCard
-              item={item}
-              selectCard={selectCard}
-              correctCardColor={props.correctCardColor}
-              incorrectCardColor={props.incorrectCardColor}
-              cardStyle={props.cardStyle}
-              inactiveCardColor={props.inactiveCardColor}
-              activeCardColor={props.activeCardColor}
-              cardTextStyle={props.cardTextStyle}
-            />
-          )}
-          style={[props.cardListStyle]}
-          scrollEnabled={props.listScrollEnabled || false}
+    return (
+      <View style={[styles.container, customContainerStyle]}>
+        <QuestionHeader
+          instructions={instructionText || 'Please insert instructions here'}
+          instructionsTextStyle={instructionsTextStyle}
+          questionTextStyle={questionTextStyle}
+          headerContainerStyle={headerContainerStyle}
         />
+        <View style={[styles.cardListContainer, cardListContainerStyle]}>
+          <FlatList
+            data={state.deck}
+            numColumns={2}
+            keyExtractor={(item) => item.name}
+            renderItem={({ item }) => (
+              <PlayingCard
+                item={item}
+                selectCard={selectCard}
+                correctCardColor={correctCardColor}
+                incorrectCardColor={incorrectCardColor}
+                cardStyle={cardStyle}
+                inactiveCardColor={inactiveCardColor}
+                activeCardColor={activeCardColor}
+                cardTextStyle={cardTextStyle}
+              />
+            )}
+            style={[cardListStyle]}
+            scrollEnabled={listScrollEnabled || false}
+          />
+        </View>
       </View>
-      <ContinueButton
-        onContinue={onContinue}
-        labelStyle={props.continueLabelStyle}
-        buttonStyle={props.continueButtonStyle}
-        enabled={state.continueEnabled}
-      />
-    </View>
-  );
-};
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: Sizing.sw
+    width: Sizing.sw,
+  },
+  cardListContainer: {
+    flex: 4,
   },
 });
 

@@ -1,10 +1,23 @@
-import type { MatchingCard, MatchingQState, QuestionAnswerPair } from "./definitions";
+import type {
+  MatchingCard,
+  MatchingQState,
+  QuestionAnswerPair,
+} from './definitions';
 
 type State = MatchingQState;
 
 type Actions =
-  | { type: 'selectCard'; payload: { selection: MatchingCard } }
-  | { type: 'reset'; payload: { questionAnswers: Array<QuestionAnswerPair> } };
+  | {
+      type: 'selectCard';
+      payload: {
+        selection: MatchingCard;
+        submit: (isCorrect: boolean) => void;
+      };
+    }
+  | {
+      type: 'reset';
+      payload: { questionAnswerPairs: Array<QuestionAnswerPair> };
+    };
 
 const compose = (...fns: Array<(y: any) => any>) => (x: any) =>
   fns.reduceRight((y, f) => f(y), x);
@@ -75,7 +88,7 @@ const splitQuestionAnswerPair = (
       justSubmitted: false,
     },
     {
-      index: increment+index,
+      index: increment + index,
       name: questionAnswer.answer,
       pair: index,
       selected: false,
@@ -99,19 +112,21 @@ const shuffleArray = (ogArray: Array<any>) => {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-  console.log('running shuffle array')
   return array;
 };
 
 export const setup = compose(shuffleArray, createMatchingCards);
 
 export const matchingReducer = (state: State, action: Actions) => {
-  if (action.type == 'selectCard') {
+  if (action.type === 'selectCard') {
     var isUserPickingSecondCard =
       state.deck.filter((c) => c.selected).length > 0;
     var isUserPickingSameCard =
-      state.deck.find((c) => c.selected) == action.payload.selection;
-    var isGameFinished = state.deck.filter((c) => c.visible).length <= 2;
+      state.deck.find((c) => c.selected) === action.payload.selection;
+    var isGameFinished =
+      state.deck.filter((c) => c.visible).length <= 2 &&
+      isUserPickingSecondCard;
+    isGameFinished && action.payload.submit(true);
     return isUserPickingSecondCard
       ? isUserPickingSameCard
         ? {
@@ -137,8 +152,8 @@ export const matchingReducer = (state: State, action: Actions) => {
     //setAllCards(selectCard({card, allCards}))
   } else if (action.type === 'reset') {
     return {
-      deck: setup(action.payload.questionAnswers),
-      continueEnabled: false
+      deck: setup(action.payload.questionAnswerPairs),
+      continueEnabled: false,
     };
   } else {
     return { ...state };

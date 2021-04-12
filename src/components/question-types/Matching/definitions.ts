@@ -1,11 +1,11 @@
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import type QuestionProps from '../commonProps'
+import type { QuestionProps } from '../commonProps';
 
 export interface MatchingCard {
   index: number;
 
   name: string;
-  
+
   pair: number;
 
   selected: boolean;

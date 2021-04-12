@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { View, TextInput } from 'react-native';
 import { Sizing } from '../../../styles';
-import { ContinueButton, GiveUpButton } from '../../buttons';
+import { GiveUpButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import styles from '../styles';
 import { WritingQInitialState, WritingQProps } from './definitions';
@@ -25,12 +25,12 @@ const WritingQuestion: React.FC<WritingQProps> = (props) => {
   };
 
   return (
-    <View style={{width: Sizing.sw}}>
+    <View style={{ width: Sizing.sw }}>
       <QuestionHeader
         instructions={props.instructionText}
         question={props.question}
       />
-      <View style={{flex: 3, justifyContent: 'center'}}>
+      <View style={{ flex: 3, justifyContent: 'center' }}>
         <View style={styles.underline}>
           <TextInput
             onChangeText={(response) => handleResponse(response)}
@@ -49,13 +49,6 @@ const WritingQuestion: React.FC<WritingQProps> = (props) => {
         buttonStyle={props.giveUpButtonStyle}
         buttonContainerStyle={props.giveUpButtonContainerStyle}
         enabled={state.inputEnabled}
-      />
-      <ContinueButton
-        onContinue={props.onContinue}
-        labelStyle={props.continueLabelStyle}
-        buttonStyle={props.continueButtonStyle}
-        buttonContainerStyle={props.continueButtonContainerStyle}
-        enabled={state.continueEnabled}
       />
     </View>
   );
