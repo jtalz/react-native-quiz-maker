@@ -5,7 +5,7 @@ import {
   MultipleChoiceQuestion,
   QuizContainer,
   WritingQuestion,
-} from '../../src/index';
+} from 'react-native-quiz-maker';
 
 export default function App() {
   return (

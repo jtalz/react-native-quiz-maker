@@ -7,29 +7,34 @@ import styles from '../styles';
 import { WritingQInitialState, WritingQProps } from './definitions';
 import { WritingQReducer } from './reducer';
 
-const WritingQuestion: React.FC<WritingQProps> = (props) => {
+const WritingQuestion: React.FC<WritingQProps> = ({
+  onSubmit = (isCorrect: boolean) => isCorrect,
+  answer,
+  instructionText,
+  question,
+  giveUpButtonContainerStyle,
+  giveUpButtonStyle,
+  giveUpLabelStyle,
+}) => {
   const [state, dispatch] = useReducer(WritingQReducer, WritingQInitialState);
 
   const handleResponse = (response: string) => {
-    if (response == props.answer) {
+    if (response == answer) {
       dispatch({ type: 'correctAnswer', response });
-      props.onSubmit(true);
+      onSubmit(true);
     } else {
       dispatch({ type: 'handleResponse', response });
     }
   };
 
   const giveUp = () => {
-    dispatch({ type: 'giveUp', payload: { answer: props.answer } });
-    props.onSubmit(false);
+    dispatch({ type: 'giveUp', payload: { answer: answer } });
+    onSubmit(false);
   };
 
   return (
     <View style={{ width: Sizing.sw }}>
-      <QuestionHeader
-        instructions={props.instructionText}
-        question={props.question}
-      />
+      <QuestionHeader instructions={instructionText} question={question} />
       <View style={{ flex: 3, justifyContent: 'center' }}>
         <View style={styles.underline}>
           <TextInput
@@ -45,9 +50,9 @@ const WritingQuestion: React.FC<WritingQProps> = (props) => {
       </View>
       <GiveUpButton
         onGiveUp={giveUp}
-        labelStyle={props.giveUpLabelStyle}
-        buttonStyle={props.giveUpButtonStyle}
-        buttonContainerStyle={props.giveUpButtonContainerStyle}
+        labelStyle={giveUpLabelStyle}
+        buttonStyle={giveUpButtonStyle}
+        buttonContainerStyle={giveUpButtonContainerStyle}
         enabled={state.inputEnabled}
       />
     </View>

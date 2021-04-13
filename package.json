@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/jtalz/react-native-quiz-maker#readme",
   "publishConfig": {
+    "cache": "cache/.npm",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {

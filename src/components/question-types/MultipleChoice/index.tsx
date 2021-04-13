@@ -12,7 +12,17 @@ import { MultipleChoiceQReducer } from './reducer';
 import { Sizing } from '../../../styles';
 import styles from '../styles';
 
-const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
+const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = ({
+  answer,
+  allChoices,
+  onSubmit = (isCorrect: boolean) => isCorrect,
+  customContainerStyle,
+  instructionText,
+  question,
+  checkButtonContainerStyle,
+  checkLabelStyle,
+  checkButtonStyle,
+}) => {
   const [state, dispatch] = useReducer(
     MultipleChoiceQReducer,
     MultipleChoiceQInitialState
@@ -36,9 +46,9 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   const submit = () => {
     dispatch({
       type: 'checkPlease',
-      payload: { answer: props.answer, allChoices: props.allChoices },
+      payload: { answer: answer, allChoices: allChoices },
     });
-    props.onSubmit(props.allChoices[state.selectedChoice] == props.answer);
+    onSubmit(allChoices[state.selectedChoice] == answer);
   };
 
   const returnHandlerHome = (_translate: any, index: number) => {
@@ -78,11 +88,8 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
   };
 
   return (
-    <View style={[{ width: Sizing.sw }, props.customContainerStyle]}>
-      <QuestionHeader
-        instructions={props.instructionText}
-        question={props.question}
-      />
+    <View style={[{ width: Sizing.sw }, customContainerStyle]}>
+      <QuestionHeader instructions={instructionText} question={question} />
       <View
         onLayout={(event) => {
           setLandingZoneCoordinates({
@@ -99,12 +106,12 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
         <View
           style={{
             ...styles.underline,
-            width: Sizing.normalize(props.answer.length * 20),
+            width: Sizing.normalize(answer.length * 20),
           }}
         ></View>
       </View>
       <View style={{ flex: 3 }}>
-        {props.allChoices.map((name, index) => (
+        {allChoices.map((name, index) => (
           <DraggableButton
             key={index}
             name={name.toString()}
@@ -112,7 +119,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
             index={index}
             landingZoneOccupier={state.occupier}
             clearOut={clearOut}
-            choices={props.allChoices}
+            choices={allChoices}
             enabled={state.choicesEnabled}
           />
         ))}
@@ -120,16 +127,16 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = (props) => {
       <PrimaryButton
         label="Check"
         onPress={submit}
-        labelStyle={props.checkLabelStyle}
-        buttonStyle={props.checkButtonStyle}
-        buttonContainerStyle={props.checkButtonContainerStyle}
+        labelStyle={checkLabelStyle}
+        buttonStyle={checkButtonStyle}
+        buttonContainerStyle={checkButtonContainerStyle}
         enabled={state.checkEnabled}
       />
       {/*       <ContinueButton
-        onContinue={props.onContinue}
-        labelStyle={props.continueLabelStyle}
-        buttonStyle={props.continueButtonStyle}
-        buttonContainerStyle={props.continueButtonContainerStyle}
+        onContinue={onContinue}
+        labelStyle={continueLabelStyle}
+        buttonStyle={continueButtonStyle}
+        buttonContainerStyle={continueButtonContainerStyle}
         enabled={state.continueEnabled}
       /> */}
     </View>

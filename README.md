@@ -7,6 +7,7 @@ A dynamic UI library for creating interactive quizzes in react-native.
 ```sh
 npm install react-native-quiz-maker
 ```
+https://www.npmjs.com/package/react-native-quiz-maker
 
 ## Usage
 
