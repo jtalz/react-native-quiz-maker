@@ -23,7 +23,7 @@ const MatchingQuestion: React.FC<MatchingQProps> = React.memo(
     activeCardColor,
     cardTextStyle,
     cardListStyle,
-    listScrollEnabled,
+    listScrollEnabled = false,
   }) => {
     const initialDeck = setup(questionAnswerPairs);
     const [state, dispatch] = useReducer(matchingReducer, {
@@ -63,7 +63,7 @@ const MatchingQuestion: React.FC<MatchingQProps> = React.memo(
               />
             )}
             style={[cardListStyle]}
-            scrollEnabled={listScrollEnabled || false}
+            scrollEnabled={listScrollEnabled}
           />
         </View>
       </View>

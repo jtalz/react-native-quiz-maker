@@ -48,8 +48,14 @@ const QuizContainer: React.FC<QuizContainerProps> = ({
       : (didMount.current = true);
   }, [state.activeQuestion, horizontalContainer]);
 
+  useEffect(() => {
+    dispatch({ type: 'reset', payload: { questions } });
+  }, [questions]);
+
   return (
-    <View style={[{ flex: 1 }, customContainerStyle]}>
+    <View
+      style={[{ flex: 1, backgroundColor: '#89cff0' }, customContainerStyle]}
+    >
       <Animated.View
         style={[
           styles.animatedContainer,
@@ -131,6 +137,11 @@ const styles = StyleSheet.create({
   animatedContainer: {
     flexDirection: 'row',
     flex: 3,
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });
 

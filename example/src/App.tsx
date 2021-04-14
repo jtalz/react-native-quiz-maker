@@ -40,20 +40,30 @@ export default function App() {
       <QuizContainer
         questions={[
           {
+            questionType: 'Matching',
+            questionAnswerPairs: [
+              {
+                answer: ' Equilateral',
+                question: 'Three sides of equal length',
+              },
+              {
+                answer: 'Acute',
+                question: 'Three angles less than 90 degrees',
+              },
+              {
+                answer: 'Obtuse',
+                question: 'One angle greater than 90 degrees',
+              },
+              { answer: 'Isosceles', question: 'Two sides of equal length' },
+            ],
+            instructionText: 'Select the definitions that match the appropriate triangle',
+          },
+          {
             questionType: 'MultipleChoice',
             question: 'How much does an apple cost?',
             answer: '$15.99',
             allChoices: ['$15.99', '$1.00', '$9.99'],
             instructionText: 'please answer',
-          },
-          {
-            questionType: 'Matching',
-            questionAnswerPairs: [
-              { answer: 'hello', question: 'goodbye' },
-              { answer: 'see ya', question: 'be ya' },
-              { answer: 'mia', question: 'pia' },
-            ],
-            instructionText: 'try this out',
           },
           {
             questionType: 'Writing',

@@ -6,7 +6,7 @@ export const isLastElement = (index: number, arr: any[]) =>
 type Actions =
   | { type: 'nextSlide' }
   | { type: 'exit' }
-  | { type: 'updateProgress' }
+  | { type: 'reset'; payload: { questions: QuestionProps } }
   | {
       type: 'userSubmit';
       payload: { isCorrect: boolean; progressIncrement: number };
@@ -35,6 +35,14 @@ export const QuizContainerReducer = (
       progress: action.payload.isCorrect
         ? state.progress + action.payload.progressIncrement
         : state.progress,
+    };
+  } else if (action.type === 'reset') {
+    return {
+      questionComponents: [...action.payload.questions],
+      activeQuestion: 0,
+      progress: 0,
+      lives: 3,
+      continueEnabled: false,
     };
   } else {
     return state;
