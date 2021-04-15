@@ -1,35 +1,54 @@
-import React, { useReducer } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
-import { Sizing } from '../../../styles';
+import React, { useEffect, useReducer } from 'react';
+import { FlatList, View } from 'react-native';
 import { QuestionHeader } from '../../texts';
 import type { MatchingCard, MatchingQProps } from './definitions';
 import PlayingCard from './PlayingCard';
-import { matchingReducer, setup } from './setup';
+import { matchingReducer } from './setup';
+import { default as styles } from './styles';
 
 const MatchingQuestion: React.FC<MatchingQProps> = React.memo(
   ({
     questionAnswerPairs,
+
     onSubmit = (isCorrect: boolean) => isCorrect,
+
     customContainerStyle,
+
     instructionText,
+
     instructionsTextStyle,
+
     questionTextStyle,
+
     headerContainerStyle,
+
     cardListContainerStyle,
+
     correctCardColor,
+
     incorrectCardColor,
+
     inactiveCardColor,
+
     cardStyle,
+
     activeCardColor,
+
     cardTextStyle,
+
     cardListStyle,
+
     listScrollEnabled = false,
   }) => {
-    const initialDeck = setup(questionAnswerPairs);
     const [state, dispatch] = useReducer(matchingReducer, {
-      deck: initialDeck,
+      deck: [],
       continueEnabled: false,
     });
+
+    useEffect(() => {
+      dispatch({ type: 'reset', payload: { questionAnswerPairs } });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const selectCard = (selection: MatchingCard) =>
       dispatch({
@@ -70,16 +89,5 @@ const MatchingQuestion: React.FC<MatchingQProps> = React.memo(
     );
   }
 );
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: Sizing.sw,
-  },
-  cardListContainer: {
-    flex: 4,
-  },
-});
 
 export default MatchingQuestion;

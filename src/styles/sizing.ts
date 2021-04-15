@@ -13,3 +13,4 @@ export const normalize = (size: number) => {
 };
 
 export const sw = Dimensions.get('screen').width;
+export const sh = Dimensions.get('screen').height;

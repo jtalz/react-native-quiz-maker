@@ -28,8 +28,11 @@ const attemptToMatch = (card: MatchingCard, deck: Array<MatchingCard>) =>
 const checkForMatch = (deck: Array<MatchingCard>) => {
   //returns true or false based on 2 selected cards
   var selectedCards = deck.filter((c) => c.selected);
-  if (selectedCards.length == 2) {
-    return { submission: selectedCards[0].pair == selectedCards[1].pair, deck };
+  if (selectedCards.length === 2) {
+    return {
+      submission: selectedCards[0].pair === selectedCards[1].pair,
+      deck,
+    };
   } else {
     return { submission: false, deck };
   }
@@ -56,7 +59,7 @@ const updateDeckAfterSubmission = (verdict: {
 const selectCard = (obj: { card: MatchingCard; deck: Array<MatchingCard> }) => {
   //sets selected card.selected = true and returns array of updated cards
   return obj.deck.map((c) => {
-    return c.index == obj.card.index
+    return c.index === obj.card.index
       ? { ...c, selected: true, justSubmitted: false }
       : { ...c, justSubmitted: false };
   });
@@ -67,7 +70,7 @@ const unselectCard = (obj: {
   deck: Array<MatchingCard>;
 }) => {
   return obj.deck.map((c) => {
-    return c.index == obj.card.index
+    return c.index === obj.card.index
       ? { ...c, selected: false, justSubmitted: false }
       : { ...c, justSubmitted: false };
   });

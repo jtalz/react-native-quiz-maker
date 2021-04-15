@@ -48,3 +48,21 @@ export interface MatchingQProps extends QuestionProps {
 
   listScrollEnabled?: boolean;
 }
+
+export interface MatchingCardProps {
+  item: MatchingCard;
+
+  selectCard: (selection: MatchingCard) => void;
+
+  correctCardColor?: string;
+
+  incorrectCardColor?: string;
+
+  inactiveCardColor?: string;
+
+  activeCardColor?: string;
+
+  cardStyle?: StyleProp<ViewStyle>;
+
+  cardTextStyle?: StyleProp<TextStyle>;
+}

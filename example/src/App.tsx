@@ -56,7 +56,8 @@ export default function App() {
               },
               { answer: 'Isosceles', question: 'Two sides of equal length' },
             ],
-            instructionText: 'Select the definitions that match the appropriate triangle',
+            instructionText:
+              'Select the definitions that match the appropriate triangle',
           },
           {
             questionType: 'MultipleChoice',
