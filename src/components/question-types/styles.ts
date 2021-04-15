@@ -1,17 +1,17 @@
-import { Sizing } from "../../styles";
+import { Sizing } from '../../styles';
 
 const { StyleSheet } = require('react-native');
 
 const styles = StyleSheet.create({
   underline: {
     height: 50,
-    borderBottomColor: 'black',
+    borderBottomColor: 'white',
     borderWidth: 1,
     borderColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     width: Sizing.sw / 2,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });
 

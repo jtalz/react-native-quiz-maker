@@ -106,7 +106,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = ({
         <View
           style={{
             ...styles.underline,
-            width: Sizing.normalize(answer.length * 20),
+            width: Sizing.normalize(answer.length * 50),
           }}
         ></View>
       </View>
@@ -132,13 +132,6 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQProps> = ({
         buttonContainerStyle={checkButtonContainerStyle}
         enabled={state.checkEnabled}
       />
-      {/*       <ContinueButton
-        onContinue={onContinue}
-        labelStyle={continueLabelStyle}
-        buttonStyle={continueButtonStyle}
-        buttonContainerStyle={continueButtonContainerStyle}
-        enabled={state.continueEnabled}
-      /> */}
     </View>
   );
 };

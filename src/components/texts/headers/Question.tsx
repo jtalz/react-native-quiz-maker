@@ -25,21 +25,35 @@ const QuestionHeader: React.FC<Props> = (props) => {
         props.headerContainerStyle,
       ]}
     >
-      <Text style={[props.instructionsTextStyle, styles.instructionsText]}>
+      <Text style={[styles.text, styles.questionText, props.questionTextStyle]}>
+        {props.question}
+      </Text>
+      <Text
+        style={[
+          styles.text,
+          styles.instructionsText,
+          props.instructionsTextStyle,
+        ]}
+      >
         {props.instructions}
       </Text>
-      <Text style={[props.questionTextStyle]}>{props.question}</Text>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  instructionsText: {
+  text: {
     fontFamily: Typography.light,
-    fontSize: Sizing.normalize(18),
     textAlign: 'center',
     paddingHorizontal: 10,
     color: 'white',
+    marginVertical: 10,
+  },
+  instructionsText: {
+    fontSize: Sizing.normalize(12),
+  },
+  questionText: {
+    fontSize: Sizing.normalize(18),
   },
 });
 

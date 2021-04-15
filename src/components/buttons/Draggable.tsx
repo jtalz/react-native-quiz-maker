@@ -15,7 +15,11 @@ interface Props {
 
   enabled: boolean;
 
-  onHandlerStateChange: (_layout: any, _translate: any, index: number) => (event: any) => any;
+  onHandlerStateChange: (
+    _layout: any,
+    _translate: any,
+    index: number
+  ) => (event: any) => any;
 
   clearOut: () => void;
 
@@ -48,7 +52,11 @@ const DraggableButton: React.FC<Props> = (props) => {
 
   const _onPanGestureEvent = onPanGestureEvent(_translate);
 
-  const _onHandlerStateChange = props.onHandlerStateChange(layout, _translate, props.index);
+  const _onHandlerStateChange = props.onHandlerStateChange(
+    layout,
+    _translate,
+    props.index
+  );
 
   useEffect(() => {
     if (props.landingZoneOccupier == props.index) {
@@ -122,7 +130,6 @@ const styles = StyleSheet.create({
   choice: {
     height: 46,
     backgroundColor: 'white',
-    borderWidth: 2,
     borderRadius: 23,
     justifyContent: 'center',
     shadowOpacity: 0.25,

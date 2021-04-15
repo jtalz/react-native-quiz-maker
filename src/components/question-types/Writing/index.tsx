@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import { View, TextInput } from 'react-native';
-import { Sizing } from '../../../styles';
+import { Sizing, Typography } from '../../../styles';
 import { GiveUpButton } from '../../buttons';
 import { QuestionHeader } from '../../texts';
 import styles from '../styles';
@@ -44,7 +44,14 @@ const WritingQuestion: React.FC<WritingQProps> = ({
             autoCorrect={false}
             autoCapitalize="sentences"
             placeholder="start typing here..."
-            style={{ width: Sizing.sw / 2, textAlign: 'center' }}
+            style={{
+              width: Sizing.sw / 2,
+              textAlign: 'center',
+              color: 'white',
+              fontFamily: Typography.light,
+              fontSize: Sizing.normalize(14),
+            }}
+            placeholderTextColor="white"
           />
         </View>
       </View>

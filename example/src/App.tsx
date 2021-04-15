@@ -40,6 +40,19 @@ export default function App() {
       <QuizContainer
         questions={[
           {
+            questionType: 'Writing',
+            question:
+              'What is the last name of The United States of Americas first President?',
+            answer: 'Washington',
+          },
+          {
+            questionType: 'MultipleChoice',
+            question: 'What is 5 x 10 + 30?',
+            answer: '80',
+            allChoices: ['54', '85', '80'],
+            instructionText: 'Press on or drag the best answer to place',
+          },
+          {
             questionType: 'Matching',
             questionAnswerPairs: [
               {
@@ -57,20 +70,7 @@ export default function App() {
               { answer: 'Isosceles', question: 'Two sides of equal length' },
             ],
             instructionText:
-              'Select the definitions that match the appropriate triangle',
-          },
-          {
-            questionType: 'MultipleChoice',
-            question: 'How much does an apple cost?',
-            answer: '$15.99',
-            allChoices: ['$15.99', '$1.00', '$9.99'],
-            instructionText: 'please answer',
-          },
-          {
-            questionType: 'Writing',
-            question: 'How many apples are in a dozen?',
-            answer: '12',
-            instructionText: 'please answer',
+              'Match the definition with the appropriate triangle',
           },
         ]}
         onSubmit={(isCorrect: boolean) => console.log(isCorrect)}
